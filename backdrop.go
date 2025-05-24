@@ -1,4 +1,4 @@
-package gio
+package backdrop
 
 import (
 	"image/color"
