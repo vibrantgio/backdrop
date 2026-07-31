@@ -1,5 +1,5 @@
 module github.com/vibrantgio/backdrop
 
-go 1.23.8
+go 1.24.0
 
-require gioui.org v0.9.0
+require gioui.org v0.10.1
