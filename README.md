@@ -1,7 +1,7 @@
 # backdrop
 
 A solid-colour background layer for
-[VibrantGio](https://github.com/vibrantgio), a design system for native desktop
+[Vibrant Gio](https://github.com/vibrantgio), a design system for native desktop
 applications on macOS, Windows and Linux, written in pure Go on
 [Gio](https://gioui.org). Two functions, twenty lines, no state — and the most
 widely used of the organization's drawing leaves.
