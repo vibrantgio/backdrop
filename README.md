@@ -132,9 +132,10 @@ Honest about what does not work yet. Every count below is measured.
   module with a different call shape and one consumer; a scrim over a modal is
   hand-rolled — `todos` builds its own from `color.NRGBA{A: 153}` rather than
   layering this. Phase E of the
-  [org plan](https://github.com/vibrantgio/.github) builds `pulse/blur` on
-  `gioui.org/gpu/headless` with a backdrop pipeline; it does not claim this
-  module, and the two will need reconciling.
+  [org plan](https://github.com/vibrantgio/.github) built `pulse/blur` on
+  `gioui.org/gpu/headless` with a backdrop pipeline (`blur.Backdrop`); it did
+  not claim this module, and the two still need reconciling — no phase of the
+  current plan does it.
 - **There are no tests and no golden images.** `go test ./...` reports "no test
   files". It is twenty lines and it is the first thing every application draws,
   and nothing pins it.
