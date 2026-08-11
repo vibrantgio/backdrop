@@ -21,7 +21,7 @@ clip, for a caller that has already pushed one.
 
 ## Where it sits
 
-Tier 0 of the stack — `mvu → theme → prism → pulse → cadence → markdown` —
+Tier 0 of the stack — `mvu → theme → components → pulse → cadence → markdown` —
 a leaf whose only dependency is Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
