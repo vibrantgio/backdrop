@@ -21,7 +21,7 @@ clip, for a caller that has already pushed one.
 
 ## Where it sits
 
-Tier 0 of the stack — `mvu → theme → components → pulse → cadence → markdown` —
+Tier 0 of the stack — `mvu → theme → components → effects → cadence → markdown` —
 a leaf whose only dependency is Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
@@ -132,7 +132,7 @@ Honest about what does not work yet. Every count below is measured.
   module with a different call shape and one consumer; a scrim over a modal is
   hand-rolled — `todos` builds its own from `color.NRGBA{A: 153}` rather than
   layering this. Phase E of the
-  [org plan](https://github.com/vibrantgio/.github) built `pulse/blur` on
+  [org plan](https://github.com/vibrantgio/.github) built `effects/blur` on
   `gioui.org/gpu/headless` with a backdrop pipeline (`blur.Backdrop`); it did
   not claim this module, and the two still need reconciling — no phase of the
   current plan does it.
