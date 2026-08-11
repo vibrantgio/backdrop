@@ -21,7 +21,7 @@ clip, for a caller that has already pushed one.
 
 ## Where it sits
 
-Tier 0 of the stack — `mvu → spectrum → prism → pulse → cadence → markdown` —
+Tier 0 of the stack — `mvu → theme → prism → pulse → cadence → markdown` —
 a leaf whose only dependency is Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
@@ -84,7 +84,7 @@ func BackdropLayer(th rx.Observable[theme.Theme]) rx.Observable[layout.Widget] {
 ```
 
 There is no invalidation call and no light/dark branch. `th` comes from
-[spectrum](https://github.com/vibrantgio/spectrum), which polls the OS and
+[theme](https://github.com/vibrantgio/theme), which polls the OS and
 emits only on change; when it emits, `SwitchMap` resolves the new colour
 tokens, `Map` builds a new `backdrop.Widget`, and the window renders it. Each
 of the four workbench applications with a backdrop repeats those same few
