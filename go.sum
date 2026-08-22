@@ -1,6 +1,6 @@
-gioui.org v0.10.1 h1:Dvp6iDk9RKuZk19jxhOmb4p673CLVvb656LyMxQ+uO0=
-gioui.org v0.10.1/go.mod h1:MZJZsdEPkTBzChdqeE8CiiQhreUQBj43qusDxQNDf7k=
-gioui.org/shader v1.0.8 h1:6ks0o/A+b0ne7RzEqRZK5f4Gboz2CfG+mVliciy6+qA=
-gioui.org/shader v1.0.8/go.mod h1:mWdiME581d/kV7/iEhLmUgUK5iZ09XR5XpduXzbePVM=
+gioui.org v0.10.2 h1:bZU5CORROwc51sNha0zYdE2qWVaDncOp5EjV5nrZQZ8=
+gioui.org v0.10.2/go.mod h1:iKILKNq6+LHMWhP/HjGDW/wDidUzRnb7B6c7ZD9y1Mg=
+gioui.org/shader v1.0.9 h1:XxnqIfmClWpN49kizxH2W0JcCFrrEP4q3jZmNYaltbs=
+gioui.org/shader v1.0.9/go.mod h1:mWdiME581d/kV7/iEhLmUgUK5iZ09XR5XpduXzbePVM=
 golang.org/x/sys v0.47.0 h1:o7XGOvZQCADBQQ4Y7VNq2dRWQR7JmOUW8Kxx4ZsNgWs=
 golang.org/x/sys v0.47.0/go.mod h1:4GL1E5IUh+htKOUEOaiffhrAeqysfVGipDYzABqnCmw=
