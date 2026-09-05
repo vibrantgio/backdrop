@@ -9,7 +9,7 @@ widely used of the organization's drawing leaves.
 Filling a Gio window with a colour is three ops in a specific order: a clip to
 push, a `paint.ColorOp` to set the material, and a `paint.PaintOp` to actually
 put pixels down. Get the order wrong and nothing appears; leave the clip out
-and the fill escapes the widget it was meant to stay in. It is the first thing
+and the fill escapes the component it was meant to stay in. It is the first thing
 every application does and the first thing everyone writes twice.
 
 `Widget` is that sequence as a `layout.Widget`: it clips to the incoming
@@ -63,7 +63,7 @@ backdrop := rx.Of(backdrop.Widget(colornames.Grey600))
 window.Render(backdrop).Wait()
 ```
 
-`rx.Of` is what turns a widget into a layer: an MVU window renders
+`rx.Of` is what turns a component into a layer: an MVU window renders
 `rx.Observable[layout.Widget]` streams stacked back to front, and a background
 that never changes is a stream of exactly one element.
 

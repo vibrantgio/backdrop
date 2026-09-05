@@ -1,6 +1,6 @@
 # AGENTS.md — backdrop
 
-A solid-colour background widget.
+A solid-colour background component.
 
 Read the org guide before you write code against this module:
 
