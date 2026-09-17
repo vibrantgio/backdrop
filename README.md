@@ -28,11 +28,9 @@ a leaf whose only dependency is Gio. The
 It sits alongside [gradient](https://github.com/vibrantgio/gradient) and
 [circle](https://github.com/vibrantgio/circle), the other two drawing leaves,
 and it is the one that is genuinely load-bearing: ten `mvu/example` programs
-and four of the seven
-[workbench](https://github.com/vibrantgio/workbench) applications — `todos`,
-`iconbrowser`, `launcher` and `mindchat` — import it, against one consumer for
-gradient and five for circle. Nothing inside the design system imports it;
-components paint their own surfaces.
+and four of the seven applications built on the design system import it,
+against one consumer for gradient and five for circle. Nothing inside the
+design system imports it; components paint their own surfaces.
 
 ```sh
 go get github.com/vibrantgio/backdrop
@@ -68,9 +66,8 @@ window.Render(backdrop).Wait()
 that never changes is a stream of exactly one element.
 
 The case worth copying is the themed one, because it is where the reactive
-plumbing earns its keep. This is `backdrop.go` from
-[workbench/todos](https://github.com/vibrantgio/workbench/tree/master/todos) in
-full — the bottom layer of an application that follows the OS colour scheme:
+plumbing earns its keep. This is `backdrop.go` from an application that
+follows the OS colour scheme, in full — the bottom layer of its window:
 
 ```go
 func BackdropLayer(th rx.Observable[theme.Theme]) rx.Observable[layout.Widget] {
@@ -87,8 +84,7 @@ There is no invalidation call and no light/dark branch. `th` comes from
 [theme](https://github.com/vibrantgio/theme), which polls the OS and
 emits only on change; when it emits, `SwitchMap` resolves the new colour
 tokens, `Map` builds a new `backdrop.Widget`, and the window renders it. Each
-of the four workbench applications with a backdrop repeats those same few
-lines.
+of the four applications with a backdrop repeats those same few lines.
 
 Inside a shape you already clipped, drop to `Fill` — from `mvu/example/edit`,
 filling a text field's own rectangle:
@@ -100,11 +96,8 @@ backdrop.Fill(gtx.Ops, backColor)
 
 ## For coding assistants
 
-Read the canonical guide before writing code against this module — the module
-inventory with current tags, the application skeleton, MVU and rx semantics,
-typography, and the pitfalls that are not guessable:
-
-<https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt>
+Read the org guide before you write code against this module: the plan
+root's [`AGENTS.md`](https://github.com/vibrantgio/.github/blob/master/AGENTS.md).
 
 [`AGENTS.md`](./AGENTS.md) in this repository has the build and test commands.
 
@@ -130,8 +123,8 @@ Honest about what does not work yet. Every count below is measured.
 - **Solid colour only.** No gradient, no image, no blur, no scrim. A gradient
   background is [gradient](https://github.com/vibrantgio/gradient), a different
   module with a different call shape and one consumer; a scrim over a modal is
-  hand-rolled — `todos` builds its own from `color.NRGBA{A: 153}` rather than
-  layering this. Phase E of the
+  hand-rolled — one application builds its own from `color.NRGBA{A: 153}`
+  rather than layering this. Phase E of the
   [org plan](https://github.com/vibrantgio/.github) built `effects/blur` on
   `gioui.org/gpu/headless` with a backdrop pipeline (`blur.Backdrop`); it did
   not claim this module, and the two still need reconciling — no phase of the
