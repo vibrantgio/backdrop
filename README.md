@@ -109,7 +109,7 @@ Honest about what does not work yet. Every count below is measured.
   returns `gtx.Constraints.Max`, ignoring `Constraints.Min`, so as a flex child
   it fills the flex rather than sizing to anything, and it can never be smaller
   than what it was handed. That is correct for the bottom layer of a window and
-  wrong everywhere else — a panel background inside a layout wants a clip you
+  wrong everywhere else — a pane background inside a layout wants a clip you
   pushed and a `Fill`, not this.
 - **`Fill` paints the current clip, whatever that is.** Called with no clip
   pushed it fills the entire window, silently, over everything already drawn.
