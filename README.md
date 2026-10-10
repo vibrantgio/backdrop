@@ -122,7 +122,7 @@ Honest about what does not work yet. Every count below is measured.
   There is no `backdrop.FromTokens`, and no phase of the current plan adds one.
 - **Solid colour only.** No gradient, no image, no blur, no scrim. A gradient
   background is [gradient](https://github.com/vibrantgio/gradient), a different
-  module with a different call shape and one consumer; a scrim over a modal is
+  module with a different call shape and one consumer; a scrim under a dialog is
   hand-rolled — one application builds its own from `color.NRGBA{A: 153}`
   rather than layering this. Phase E of the
   [org plan](https://github.com/vibrantgio/.github) built `effects/blur` on
