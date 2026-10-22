@@ -97,7 +97,7 @@ backdrop.Fill(gtx.Ops, backColor)
 ## For coding assistants
 
 Read the org guide before you write code against this module: the plan
-root's [`AGENTS.md`](https://github.com/vibrantgio/.github/blob/master/AGENTS.md).
+root's [`AGENTS.md`](https://github.com/vibrantgio/organisation/blob/master/AGENTS.md).
 
 [`AGENTS.md`](./AGENTS.md) in this repository has the build and test commands.
 
@@ -125,7 +125,7 @@ Honest about what does not work yet. Every count below is measured.
   module with a different call shape and one consumer; a scrim under a dialog is
   hand-rolled — one application builds its own from `color.NRGBA{A: 153}`
   rather than layering this. Phase E of the
-  [org plan](https://github.com/vibrantgio/.github) built `effects/blur` on
+  [org plan](https://github.com/vibrantgio/organisation) built `effects/blur` on
   `gioui.org/gpu/headless` with a backdrop pipeline (`blur.Backdrop`); it did
   not claim this module, and the two still need reconciling — no phase of the
   current plan does it.
