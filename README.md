@@ -3,14 +3,12 @@
 A solid-colour background layer for
 [Vibrant Gio](https://github.com/vibrantgio), a design system for native desktop
 applications on macOS, Windows and Linux, written in pure Go on
-[Gio](https://gioui.org). Two functions, twenty lines, no state — and the most
-widely used of the organization's drawing leaves.
+[Gio](https://gioui.org). Two functions and no state.
 
 Filling a Gio window with a colour is three ops in a specific order: a clip to
-push, a `paint.ColorOp` to set the material, and a `paint.PaintOp` to actually
+push, a `paint.ColorOp` to set the colour, and a `paint.PaintOp` to actually
 put pixels down. Get the order wrong and nothing appears; leave the clip out
-and the fill escapes the component it was meant to stay in. It is the first thing
-every application does and the first thing everyone writes twice.
+and the fill escapes the component it was meant to stay in.
 
 `Widget` is that sequence as a `layout.Widget`: it clips to the incoming
 constraints, fills them, and returns them. In an MVU application it is the
@@ -26,17 +24,13 @@ a leaf whose only dependency is Gio. The
 [organization page](https://github.com/vibrantgio) has the full tier table.
 
 It sits alongside [gradient](https://github.com/vibrantgio/gradient) and
-[circle](https://github.com/vibrantgio/circle), the other two drawing leaves,
-and it is the one that is genuinely load-bearing: ten `mvu/example` programs
-and four of the seven applications built on the design system import it,
-against one consumer for gradient and five for circle. Nothing inside the
-design system imports it; components paint their own surfaces.
+[circle](https://github.com/vibrantgio/circle), the other two drawing leaves.
 
 ```sh
 go get github.com/vibrantgio/backdrop
 ```
 
-Every module in the organization is on gioui.org v0.10.2 and Go 1.25.1.
+The Gio and Go versions are the ones `go.mod` names.
 
 ## Packages
 
@@ -49,11 +43,11 @@ One package, at the module root.
 
 Both take `color.Color`, not `color.NRGBA`, and convert through
 `color.NRGBAModel`, so a `colornames` value goes in directly and so does a
-`tokens.ColorTokens` field.
+`tokens.PlatformColors` field.
 
 ## Usage
 
-The static case is one line. This is the whole of `mvu/example/02-backdrop`:
+The static case is one line in a window:
 
 ```go
 window := mvu.NewWindow(app.Title("MVU - Backdrop"))
@@ -65,29 +59,27 @@ window.Render(backdrop).Wait()
 `rx.Observable[layout.Widget]` streams stacked back to front, and a background
 that never changes is a stream of exactly one element.
 
-The case worth copying is the themed one, because it is where the reactive
-plumbing earns its keep. This is `backdrop.go` from an application that
-follows the OS colour scheme, in full — the bottom layer of its window:
+The case worth copying is the themed one. This is the bottom layer of a
+window that follows the OS colour scheme, in full:
 
 ```go
 func BackdropLayer(th rx.Observable[theme.Theme]) rx.Observable[layout.Widget] {
-	colors := rx.SwitchMap(th, func(t theme.Theme) rx.Observable[tokens.ColorTokens] {
-		return t.Color
+	colors := rx.SwitchMap(th, func(t theme.Theme) rx.Observable[tokens.PlatformColors] {
+		return t.Platform
 	})
-	return rx.Map(colors, func(c tokens.ColorTokens) layout.Widget {
-		return backdrop.Widget(c.Background)
+	return rx.Map(colors, func(c tokens.PlatformColors) layout.Widget {
+		return backdrop.Widget(c.WindowBackground)
 	})
 }
 ```
 
 There is no invalidation call and no light/dark branch. `th` comes from
-[theme](https://github.com/vibrantgio/theme), which polls the OS and
-emits only on change; when it emits, `SwitchMap` resolves the new colour
-tokens, `Map` builds a new `backdrop.Widget`, and the window renders it. Each
-of the four applications with a backdrop repeats those same few lines.
+[theme](https://github.com/vibrantgio/theme), whose `Platform` observable
+emits the platform's colour set, and emits it again when the appearance changes;
+when it emits, `Map` builds a new `backdrop.Widget` on the window background
+colour, and the window renders it.
 
-Inside a shape you already clipped, drop to `Fill` — from `mvu/example/edit`,
-filling a text field's own rectangle:
+Inside a shape you already clipped, drop to `Fill`:
 
 ```go
 defer clip.Rect{Max: size}.Push(gtx.Ops).Pop()
@@ -98,12 +90,11 @@ backdrop.Fill(gtx.Ops, backColor)
 
 Read the org guide before you write code against this module: the plan
 root's [`AGENTS.md`](https://github.com/vibrantgio/organisation/blob/master/AGENTS.md).
-
-[`AGENTS.md`](./AGENTS.md) in this repository has the build and test commands.
+The build and test commands are reached from that file.
 
 ## Status
 
-Honest about what does not work yet. Every count below is measured.
+Honest about what does not work yet.
 
 - **`Widget` always takes all the space it is offered.** It clips to and
   returns `gtx.Constraints.Max`, ignoring `Constraints.Min`, so as a flex child
@@ -113,25 +104,17 @@ Honest about what does not work yet. Every count below is measured.
   pushed and a `Fill`, not this.
 - **`Fill` paints the current clip, whatever that is.** Called with no clip
   pushed it fills the entire window, silently, over everything already drawn.
-  It has one call site in the whole organization — `mvu/example/edit` — against
-  fourteen for `Widget`, so the trap is mostly untripped rather than mostly
-  avoided.
-- **The colour is an argument, not a role.** Neither function knows about
-  `tokens.ColorTokens`, so every application repeats the same `SwitchMap`/`Map`
-  bridge to get `c.Background` in here; four of them do, near-identically.
-  There is no `backdrop.FromTokens`, and no phase of the current plan adds one.
+- **The colour is an argument, not a colour role.** Neither function knows
+  about `tokens.PlatformColors`, so a themed caller writes the
+  `SwitchMap`/`Map` bridge to get `c.WindowBackground` in here itself. There is no
+  `backdrop.FromTokens`.
 - **Solid colour only.** No gradient, no image, no blur, no scrim. A gradient
   background is [gradient](https://github.com/vibrantgio/gradient), a different
-  module with a different call shape and one consumer; a scrim under a dialog is
-  hand-rolled — one application builds its own from `color.NRGBA{A: 153}`
-  rather than layering this. Phase E of the
-  [org plan](https://github.com/vibrantgio/organisation) built `effects/blur` on
-  `gioui.org/gpu/headless` with a backdrop pipeline (`blur.Backdrop`); it did
-  not claim this module, and the two still need reconciling — no phase of the
-  current plan does it.
+  module with a different call shape. `effects/blur` in
+  [effects](https://github.com/vibrantgio/effects) has a backdrop pipeline of
+  its own (`blur.Backdrop`) that does not use this module.
 - **There are no tests and no golden images.** `go test ./...` reports "no test
-  files". It is twenty lines and it is the first thing every application draws,
-  and nothing pins it.
+  files".
 
 ## License
 
